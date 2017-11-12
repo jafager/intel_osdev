@@ -1,5 +1,5 @@
 section .text
-bits32
+bits 32
 
 
 

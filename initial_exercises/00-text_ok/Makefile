@@ -4,7 +4,7 @@ iso: kernel.iso
 
 kernel.iso: kernel.elf iso/boot/grub/grub.cfg
 	cp kernel.elf iso/boot/kernel.elf
-	grub2-mkrescue -o kernel.iso iso
+	grub-mkrescue -o kernel.iso iso
 
 kernel.elf: kernel.ld multiboot_header.o startup.o
 	x86_64-elf-ld -n -o $@ -T $^
