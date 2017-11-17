@@ -60,10 +60,10 @@ serial_putc:
     ; wait for FIFO to be empty
     mov dx, serial_com1_line_status_port
     push eax
-    serial_putc_wait_for_empty:
+    .serial_putc_wait_for_empty:
         in al, dx
         test al, (1 << 5)
-        je serial_putc_wait_for_empty
+        je .serial_putc_wait_for_empty
 
     ; send byte
     mov dx, serial_com1_data_port
@@ -84,17 +84,17 @@ serial_puts:
 
     mov edx, eax
 
-    serial_puts_next_character:
+    .serial_puts_next_character:
 
         mov al, [edx]
         cmp al, 0
-        je serial_puts_end_of_string
+        je .serial_puts_end_of_string
 
         call serial_putc
         inc edx
-        jmp serial_puts_next_character
+        jmp .serial_puts_next_character
 
-    serial_puts_end_of_string:
+    .serial_puts_end_of_string:
 
     pop edx
     pop eax
