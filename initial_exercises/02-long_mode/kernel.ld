@@ -15,6 +15,21 @@ SECTIONS
         .bss : { *(.bss*) } > ram
     bss_end = .;
 
+    . = ALIGN(0x1000);
+    l4_page_table_begin = .;
+        . = . + 0x1000;
+    l4_page_table_end = .;
+
+    . = ALIGN(0x1000);
+    l3_page_table_begin = .;
+        . = . + 0x1000;
+    l3_page_table_end = .;
+
+    . = ALIGN(0x1000);
+    l2_page_table_begin = .;
+        . = . + 0x1000;
+    l2_page_table_end = .;
+
     stack_bottom = .;
         . = . + 0x1000;
     stack_top = .;
