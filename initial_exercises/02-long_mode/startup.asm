@@ -145,7 +145,6 @@ startup:
     mov eax, cr0
     or eax, 1 << 31
     mov cr0, eax
-    hlt
     mov eax, .message_paging_enabled
     call serial_puts
 

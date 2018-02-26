@@ -10,13 +10,16 @@ kernel.elf: kernel.ld multiboot_header.o startup.o serial.o
 	x86_64-elf-ld -n -o $@ -T $^
 
 %.o: %.asm
-	nasm -f elf64 -o $@ $^
+	nasm -g -f elf64 -o $@ $^
 
 run: kernel.iso
 	qemu-system-x86_64 -cdrom kernel.iso -serial stdio
 
-debug: kernel.iso
+monitor: kernel.iso
 	qemu-system-x86_64 -cdrom kernel.iso -monitor stdio
+
+debug: kernel.iso
+	qemu-system-x86_64 -s -S -cdrom kernel.iso -serial stdio
 
 dump: kernel.elf
 	x86_64-elf-objdump -M intel -d kernel.elf
