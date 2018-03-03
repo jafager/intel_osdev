@@ -155,8 +155,7 @@ startup:
     call serial_puts
 
     ; far jump into 64-bit long mode
-    ;jmp global_descriptor_table.code:dword long_mode_startup
-    jmp 0x8:long_mode_startup
+    jmp global_descriptor_table.code:dword long_mode_startup
 
 
 
@@ -208,7 +207,7 @@ global_descriptor_table:
 
     dq 0
 
-    .code:
+    .code: equ $ - global_descriptor_table
     dq (1 << 43) | (1 << 44) | (1 << 47) | (1 << 53)
 
     .pointer:

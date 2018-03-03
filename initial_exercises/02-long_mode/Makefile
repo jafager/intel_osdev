@@ -6,7 +6,7 @@ kernel.iso: kernel.elf iso/boot/grub/grub.cfg
 	cp kernel.elf iso/boot/kernel.elf
 	grub-mkrescue -o kernel.iso iso
 
-kernel.elf: kernel.ld multiboot_header.o startup.o long_mode_startup.o serial.o
+kernel.elf: kernel.ld multiboot_header.o startup.o long_mode_startup.o serial.o serial64.o
 	x86_64-elf-ld -n -o $@ -T $^
 
 %.o: %.asm

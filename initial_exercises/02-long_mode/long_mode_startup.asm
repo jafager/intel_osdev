@@ -3,15 +3,21 @@ bits 64
 
 
 
-extern serial_puts
+extern serial_puts_64
 
 
 
 global long_mode_startup
 long_mode_startup:
 
-    ;mov rax, .message_ready
-    ;call serial_puts
+    mov ax, 0
+    mov ss, ax
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+
+    mov rax, .message_long_mode_ready
+    call serial_puts_64
 
     mov rax, 0x2f592f412f4b2f4f
     mov qword [0xb8000], rax
@@ -19,6 +25,6 @@ long_mode_startup:
 
 
 
-.message_ready:
+.message_long_mode_ready:
 
-    db `Ready.\r\n\0`
+    db `Long mode ready.\r\n\0`
