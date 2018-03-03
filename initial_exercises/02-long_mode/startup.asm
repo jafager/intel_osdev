@@ -155,7 +155,8 @@ startup:
     call serial_puts
 
     ; far jump into 64-bit long mode
-    jmp global_descriptor_table.code:long_mode_startup
+    ;jmp global_descriptor_table.code:dword long_mode_startup
+    jmp 0x8:long_mode_startup
 
 
 
@@ -200,6 +201,8 @@ startup:
     db `Global descriptor table loaded.\r\n\0`
 
 
+
+section .rodata
 
 global_descriptor_table:
 

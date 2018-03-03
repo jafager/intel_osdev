@@ -2,7 +2,7 @@ ENTRY(startup)
 
 MEMORY
 {
-    ram : ORIGIN = 0x00100000, LENGTH = 0x00300000
+    ram : ORIGIN = 0x00100000, LENGTH = 0x00100000
 }
 
 SECTIONS
@@ -10,6 +10,7 @@ SECTIONS
     .boot : { *(.multiboot_header) } > ram
     .text : { *(.text*) } > ram
     .data : { *(.data*) } > ram
+    .rodata : { *(.rodata*) } > ram
 
     bss_begin = .;
         .bss : { *(.bss*) } > ram
