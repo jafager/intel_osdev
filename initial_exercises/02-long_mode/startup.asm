@@ -16,6 +16,7 @@ extern l3_page_table_begin
 extern l3_page_table_end
 extern l2_page_table_begin
 extern l2_page_table_end
+extern long_mode_startup
 
 
 
@@ -148,21 +149,15 @@ startup:
     mov eax, .message_paging_enabled
     call serial_puts
 
-    ; write the ready message to the serial port
-    mov eax, .message_ready
+    ; load the global descriptor table
+    lgdt [global_descriptor_table.pointer]
+    mov eax, .message_global_descriptor_table_loaded
     call serial_puts
 
-    ; put the OK message on the screen
-    mov dword [0xb8000], 0x2f4b2f4f
-
-    ; hang the processor
-    hlt
+    ; far jump into 64-bit long mode
+    jmp global_descriptor_table.code:long_mode_startup
 
 
-
-.message_ready:
-
-    db `Ready.\r\n\0`
 
 .message_bad_multiboot_magic_number:
 
@@ -199,3 +194,20 @@ startup:
 .message_paging_enabled:
 
     db `Paging enabled.\r\n\0`
+
+.message_global_descriptor_table_loaded:
+
+    db `Global descriptor table loaded.\r\n\0`
+
+
+
+global_descriptor_table:
+
+    dq 0
+
+    .code:
+    dq (1 << 43) | (1 << 44) | (1 << 47) | (1 << 53)
+
+    .pointer:
+    dw $ - global_descriptor_table - 1
+    dq global_descriptor_table
