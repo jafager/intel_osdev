@@ -18,3 +18,19 @@ uint32_t pci_read_configuration_space(uint32_t bus, uint32_t slot, uint32_t func
     return portread32(PCI_CONFIG_DATA);
 
 }
+
+
+
+uint16_t pci_get_device_id(uint32_t bus, uint32_t slot)
+{
+    uint32_t data = pci_read_configuration_space(bus, slot, 0, 0x00);
+    return (uint16_t)(data >> 16);
+}
+
+
+
+uint16_t pci_get_vendor_id(uint32_t bus, uint32_t slot)
+{
+    uint32_t data = pci_read_configuration_space(bus, slot, 0, 0x00);
+    return (uint16_t)(data & 0xffff);
+}
