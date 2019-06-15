@@ -18,6 +18,9 @@ kernel.elf: kernel.ld multiboot_header.o startup.o kernel.o console.o serial.o p
 run: kernel.iso
 	qemu-system-x86_64 -cdrom kernel.iso -serial stdio
 
+runvirtio:
+	qemu-system-x86_64 -cdrom kernel.iso -serial stdio -device virtio-serial-pci,max_ports=4 -device virtconsole,chardev=virtioserial -chardev file,id=virtioserial,path=virtioserial -device virtio-blk-pci,drive=virtiodrive -drive id=virtiodrive,file=virtiodrive,if=none,format=raw -net none -vga none -device virtio-blk-pci,drive=virtiodrive2 -drive id=virtiodrive2,file=virtiodrive2,if=none,format=raw
+
 monitor: kernel.iso
 	qemu-system-x86_64 -cdrom kernel.iso -monitor stdio
 
